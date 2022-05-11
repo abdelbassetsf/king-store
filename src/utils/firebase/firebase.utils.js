@@ -1,10 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import {
-  getAuth,
-  signInWithRedirect,
-  signInWithPopup,
-  GoogleAuthProvider
-} from 'firebase/auth';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import {
   getFirestore,
   doc,
@@ -27,25 +22,23 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 // Create an Instace for Google
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
   prompt: 'select_account'
 });
 
 export const auth = getAuth();
 
-export const signInWithPopupGoogle = () => signInWithPopup(auth, provider);
+export const signInWithPopupGoogle = () =>
+  signInWithPopup(auth, googleProvider);
 
 export const db = getFirestore();
 
 export const createUserDocumentFromAuth = async userAuth => {
+  //pointing at user document reference using user identifier
   const userDocRef = doc(db, 'users', userAuth.uid);
-  console.log(userDocRef);
   const userSnapshot = await getDoc(userDocRef);
 
-  // if user data doesn't exist
-  // create/set document from user auth in my collection
-  // if user data exist
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
