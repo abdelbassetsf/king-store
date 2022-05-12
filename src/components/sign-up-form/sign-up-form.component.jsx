@@ -1,5 +1,10 @@
 import { useState } from 'react';
 
+import {
+  createAuthUserWithEmailAndPassword,
+  createUserDocumentFromAuth
+} from '../../utils/firebase/firebase.utils';
+
 import Button from '../button/button.component';
 import FormInput from '../form-input/form-input.component';
 
@@ -16,17 +21,40 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
 
-  console.log(formFields);
+  const resetFormFields = () => setFormFields(defaultFormFields);
+
   const handleChange = e => {
     const { name, value } = e.target;
     setFormFields({ ...formFields, [name]: value });
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert('The passwords do not match');
+    }
+    try {
+      const { user } = await createAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+      await createUserDocumentFromAuth(user, { displayName });
+      resetFormFields();
+    } catch (e) {
+      if (e.code === 'auth/email-already-in-use') {
+        alert('cannot create user, email already in use');
+      } else {
+        console.log(e);
+      }
+    }
   };
 
   return (
     <div className='sign-up-container'>
       <h2>Don't have an account?</h2>
       <span>Sign Up With Your Email and Password</span>
-      <form onSubmit={() => ''} action='#'>
+      <form onSubmit={handleSubmit} action='#'>
         <FormInput
           htmlFor='displayName'
           label='Dsiplay Name'
@@ -57,6 +85,7 @@ const SignUpForm = () => {
           required
           name='password'
           value={password}
+          minlength='6'
         />
         <FormInput
           label='Confirm Password'
@@ -67,10 +96,9 @@ const SignUpForm = () => {
           required
           name='confirmPassword'
           value={confirmPassword}
+          minlength='6'
         />
-        <Button type='submit' buttonType='google'>
-          Sign Up
-        </Button>
+        <Button type='submit'>Sign Up</Button>
       </form>
     </div>
   );
