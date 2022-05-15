@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import {
   createAuthUserWithEmailAndPassword,
@@ -8,18 +8,22 @@ import {
 import Button from '../button/button.component';
 import FormInput from '../form-input/form-input.component';
 
+import { UserContext } from '../../contexts/user.context';
+
 import './sign-up-form.styles.scss';
 
-const SignUpForm = () => {
-  const defaultFormFields = {
-    displayName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  };
+const defaultFormFields = {
+  displayName: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+};
 
+const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
+
+  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFields = () => setFormFields(defaultFormFields);
 
@@ -40,6 +44,7 @@ const SignUpForm = () => {
         password
       );
       await createUserDocumentFromAuth(user, { displayName });
+      setCurrentUser(user);
       resetFormFields();
     } catch (e) {
       if (e.code === 'auth/email-already-in-use') {
@@ -85,7 +90,7 @@ const SignUpForm = () => {
           required
           name='password'
           value={password}
-          minlength='6'
+          minLength='6'
         />
         <FormInput
           label='Confirm Password'
@@ -96,7 +101,7 @@ const SignUpForm = () => {
           required
           name='confirmPassword'
           value={confirmPassword}
-          minlength='6'
+          minLength='6'
         />
         <Button type='submit'>Sign Up</Button>
       </form>

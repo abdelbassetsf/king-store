@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import {
   signInWithPopupGoogle,
@@ -8,6 +8,8 @@ import {
 
 import Button from '../button/button.component';
 import FormInput from '../form-input/form-input.component';
+
+import { UserContext } from '../../contexts/user.context';
 
 import './sign-in-form.styles.scss';
 
@@ -19,6 +21,8 @@ const defaultFormFields = {
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
+
+  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormFields = () => setFormFields(defaultFormFields);
 
@@ -40,6 +44,7 @@ const SignInForm = () => {
         email,
         password
       );
+      setCurrentUser(user);
       resetFormFields();
     } catch (e) {
       switch (e.code) {
@@ -76,7 +81,6 @@ const SignInForm = () => {
         <FormInput
           label='Password'
           htmlFor='password'
-          id='password'
           onChange={handleChange}
           type='password'
           required

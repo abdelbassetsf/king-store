@@ -1,8 +1,8 @@
+import { Routes, Route } from 'react-router-dom';
+
 import Navigation from './routes/navigaation/navigation.component';
 import Home from './routes/home/home.component';
 import Authentication from './routes/authentication/authentication.component';
-
-import { Routes, Route } from 'react-router-dom';
 
 import './App.css';
 
