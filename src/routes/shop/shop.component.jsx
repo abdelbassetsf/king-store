@@ -10,8 +10,8 @@ const Shop = () => {
   console.log(products);
   return (
     <div className='products-container'>
-      {products.map(({ id, ...otherProps }) => (
-        <ProductCard key={id} {...otherProps} />
+      {products.map(product => (
+        <ProductCard key={product.id} product={product} />
       ))}
     </div>
   );
