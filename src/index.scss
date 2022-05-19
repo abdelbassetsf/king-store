@@ -15,9 +15,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
+a,
 a:link,
 a:visited {
   text-decoration: none;
   color: #000;
+}
+
+li {
+  list-style: none;
 }
