@@ -10,7 +10,7 @@ import FormInput from '../form-input/form-input.component';
 
 import { UserContext } from '../../contexts/user.context';
 
-import './sign-up-form.styles.scss';
+import { SignUpContainer } from './sign-up-form.styles.jsx';
 
 const defaultFormFields = {
   displayName: '',
@@ -56,7 +56,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className='sign-up-container'>
+    <SignUpContainer>
       <h2>Don't have an account?</h2>
       <span>Sign Up With Your Email and Password</span>
       <form onSubmit={handleSubmit} action='#'>
@@ -65,7 +65,6 @@ const SignUpForm = () => {
           label='Dsiplay Name'
           onChange={handleChange}
           type='text'
-          id='displayName'
           required
           name='displayName'
           value={displayName}
@@ -76,7 +75,6 @@ const SignUpForm = () => {
           htmlFor='email'
           onChange={handleChange}
           type='email'
-          id='email'
           required
           name='email'
           value={email}
@@ -84,7 +82,6 @@ const SignUpForm = () => {
         <FormInput
           label='Password'
           htmlFor='password'
-          id='password'
           onChange={handleChange}
           type='password'
           required
@@ -95,7 +92,6 @@ const SignUpForm = () => {
         <FormInput
           label='Confirm Password'
           htmlFor='confirmPassword'
-          id='confirmPassword'
           onChange={handleChange}
           type='password'
           required
@@ -105,7 +101,7 @@ const SignUpForm = () => {
         />
         <Button type='submit'>Sign Up</Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 
