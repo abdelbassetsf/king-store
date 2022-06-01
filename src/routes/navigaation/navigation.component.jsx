@@ -8,6 +8,7 @@ import CartIcon from '../../components/cart-icon/cart-icon.component';
 import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component';
 
 import { CartContext } from '../../contexts/cart.context';
+import { selectCurentUser } from '../../store/user/user.select';
 
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 
@@ -19,9 +20,8 @@ import {
 } from './navigation.styles.jsx';
 
 const Navigation = () => {
-  const currentUser = useSelector(state => state.user.currentUser);
+  const currentUser = useSelector(selectCurentUser);
   const { isCartOpen } = useContext(CartContext);
-  console.log('re-render');
 
   return (
     <Fragment>
