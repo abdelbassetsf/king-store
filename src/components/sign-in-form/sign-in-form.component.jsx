@@ -1,4 +1,5 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import {
   signInWithPopupGoogle,
@@ -9,7 +10,7 @@ import {
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 import FormInput from '../form-input/form-input.component';
 
-import { UserContext } from '../../contexts/user.context';
+import { setCurrentUser } from '../../store/user/user.action';
 
 import { ButtonsContainer, SignInContainer } from './sign-in-form.styles.jsx';
 
@@ -22,7 +23,7 @@ const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
-  const { setCurrentUser } = useContext(UserContext);
+  const dispatch = useDispatch();
 
   const resetFormFields = () => setFormFields(defaultFormFields);
 
@@ -44,7 +45,7 @@ const SignInForm = () => {
         email,
         password
       );
-      setCurrentUser(user);
+      dispatch(setCurrentUser(user));
       resetFormFields();
     } catch (e) {
       switch (e.code) {
